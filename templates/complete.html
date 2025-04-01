@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Brain Tumor Detection</title>
+    <style>
+        body {
+            background-color: rgb(0, 0, 0); /* Fondo negro */
+            font-family: Arial, sans-serif;
+            color: rgb(255, 255, 255); /* Texto blanco */
+        }
+
+        nav.navbar {
+            background-color: rgb(0, 255, 255); /* Cian neón */
+            padding: 15px;
+        }
+
+        .navbar-brand {
+            color: rgb(255, 255, 255); /* Blanco */
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .navbar-nav .nav-link {
+            color: rgb(255, 255, 255); /* Blanco */
+            font-size: 18px;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: rgb(255, 255, 255); /* Blanco al pasar el mouse */
+            text-decoration: underline;
+        }
+
+        .container {
+            padding-top: 50px;
+            text-align: center;
+        }
+
+        .display-3 {
+            font-size: 3em;
+            color: rgb(255, 0, 255); /* Rosa neón */
+        }
+
+        .image-responsive {
+            margin-top: 20px;
+            border: 5px solid rgb(0, 255, 0); /* Verde neón */
+            border-radius: 10px;
+        }
+
+        h4 {
+            font-size: 1.5em;
+            color: rgb(255, 255, 255); /* Blanco */
+        }
+
+        span {
+            font-weight: bold;
+        }
+
+        .result-tumor {
+            color: rgb(255, 0, 0); /* Rosa neón */
+        }
+
+        .result-no-tumor {
+            color: rgb(0, 255, 0); /* Verde neón */
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a class="navbar-brand" href="#">Brain Tumor Detection</a>
+        <div class="navbar-nav">
+            <a class="nav-link" href="./">Home</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h3 class="display-3">Result</h3>
+
+        <img src="../images/{{ image_name }}" height="300px" class="image-responsive">
+
+        {% if predvalue %}
+        <h4 class="text-left pt-3">Result: <span class="result-tumor">Brain Tumor detected!!!</span></h4> 
+        {% else %}
+        <h4 class="text-left pt-3">Result: <span class="result-no-tumor">No Brain Tumor</span></h4> 
+        {% endif %}
+    </div>
+
+</body>
+
+</html>

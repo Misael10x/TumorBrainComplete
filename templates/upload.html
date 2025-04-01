@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Brain Tumor Detection</title>
+    <link type="text/css" href="{{ url_for('static', filename='css/complete.css') }}" rel="stylesheet" />
+    <style>
+        body {
+            background-color: rgb(0, 0, 0); /* Fondo negro */
+            font-family: Arial, sans-serif;
+            color: rgb(255, 255, 255); /* Texto blanco */
+        }
+
+        nav.navbar {
+            background-color: rgb(0, 255, 255); /* Cian neón */
+            padding: 15px;
+        }
+
+        .navbar-brand {
+            color: rgb(255, 255, 255); /* Blanco */
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .container {
+            padding-top: 50px;
+            text-align: center;
+        }
+
+        .display-3 {
+            font-size: 3em;
+            color: rgb(255, 0, 255); /* Rosa neón */
+        }
+
+        .file-control {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid rgb(0, 255, 0); /* Verde neón */
+            border-radius: 5px;
+            width: 50%;
+            background-color: rgb(0, 0, 0); /* Fondo negro en el input */
+            color: rgb(255, 255, 255); /* Texto blanco */
+        }
+
+        .file-control:focus {
+            border-color: rgb(255, 0, 255); /* Rosa neón al hacer foco */
+            background-color: rgb(34, 34, 34); /* Oscurecer input cuando se selecciona */
+        }
+
+        .btn-primary {
+            background-color: rgb(0, 255, 0); /* Verde neón */
+            color: rgb(0, 0, 0); /* Texto negro */
+            font-size: 18px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            width: 60%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: rgb(255, 0, 255); /* Rosa neón al pasar */
+            color: rgb(255, 255, 255); /* Cambiar el texto a blanco al pasar */
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a class="navbar-brand" href="#">Brain Tumor Detection</a>
+    </nav>
+
+    <div class="container">
+        <form id="upload-form" action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="text-center">Upload MRI image of Brain:</h3>
+
+                    <input id="file-picker" type="file" name="file" accept="image/*" class="file-control" required>
+
+                    <div id="msg"></div>
+
+                    <div class="mt-5">
+                        <button type="submit" class="btn-primary">Check Tumor Status</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</body>
+
+</html>
