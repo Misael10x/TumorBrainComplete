@@ -35,6 +35,6 @@ def upload():
     status = check(filename)
 
     return render_template('complete.html', image_name=filename, predvalue=status)
-
 if __name__ == "__main__":
-    app.run(port=4555, debug=True)
+    port = int(os.environ.get("PORT", 5000))  # Usa el puerto que asigna Render
+    app.run(host="0.0.0.0", port=port, debug=True)
