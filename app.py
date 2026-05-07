@@ -65,11 +65,15 @@ def upload():
 
         resultado = check(filename)
 
-        return {
-            "filename": filename,
-            "resultado": resultado["resultado"],
-            "probabilidad": resultado["probabilidad"]
-        }
+        return f"""
+<h1>Resultado IA Tumor Brain</h1>
+
+<h2>{resultado['resultado']}</h2>
+
+<h3>Probabilidad: {resultado['probabilidad']}%</h3>
+
+<a href="/">Volver</a>
+"""
 
     except Exception as e:
 
