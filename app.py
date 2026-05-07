@@ -1,7 +1,5 @@
-# app.py
-
 import os
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_from_directory
 from predictor import check
 
 author = 'TEAM DELTA'
@@ -13,6 +11,18 @@ author = 'TEAM DELTA'
 app = Flask(__name__)
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+# =========================
+# MOSTRAR IMAGENES
+# =========================
+
+@app.route('/images/<filename>')
+def images(filename):
+
+    return send_from_directory(
+        os.path.join(APP_ROOT, 'images'),
+        filename
+    )
 
 # =========================
 # HOME

@@ -81,8 +81,9 @@
     <div class="container">
         <h3 class="display-3">Result</h3>
 
-        <img src="../images/{{ image_name }}" height="300px" class="image-responsive">
-
+        <img src="{{ url_for('images', filename=image_name) }}"
+     height="300px"
+     class="image-responsive">
         {% if predvalue %}
         <h4 class="text-left pt-3">Result: <span class="result-tumor">Brain Tumor detected!!!</span></h4> 
         {% else %}
