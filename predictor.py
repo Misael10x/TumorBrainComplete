@@ -8,10 +8,14 @@ from tensorflow.keras.models import load_model
 # CARGAR MODELO
 # =========================
 
+print("Cargando modelo...")
+
 saved_model = load_model(
     "model/VGG_model.h5",
     compile=False
 )
+
+print("Modelo cargado correctamente")
 
 # =========================
 # PREDICCION
@@ -74,7 +78,6 @@ def check(input_img):
             resultado = "No se detectó tumor"
 
         print("Resultado:", resultado)
-        print("Probabilidad:", prob)
 
         return {
             "resultado": resultado,
@@ -83,7 +86,7 @@ def check(input_img):
 
     except Exception as e:
 
-        print("ERROR:", str(e))
+        print("ERROR PREDICTOR:", str(e))
 
         return {
             "resultado": "Error al procesar imagen",

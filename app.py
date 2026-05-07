@@ -1,8 +1,8 @@
-import os
-from flask import Flask, render_template, request, send_from_directory
-from predictor import check
+# app.py
 
-author = 'TEAM DELTA'
+import os
+from flask import Flask, request
+from predictor import check
 
 # =========================
 # FLASK
@@ -13,32 +13,21 @@ app = Flask(__name__)
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 # =========================
-# MOSTRAR IMAGENES
-# =========================
-
-@app.route('/images/<filename>')
-def images(filename):
-
-    return send_from_directory(
-        os.path.join(APP_ROOT, 'images'),
-        filename
-    )
-
-# =========================
 # HOME
 # =========================
 
 @app.route('/')
-@app.route('/index')
-def index():
+def home():
 
-    return render_template('upload.html')
+    return {
+        "mensaje": "Brain Tumor API funcionando"
+    }
 
 # =========================
 # UPLOAD Y PREDICCION
 # =========================
 
-@app.route('/upload', methods=['GET', 'POST'])
+@app.route('/upload', methods=['POST'])
 def upload():
 
     try:
@@ -47,9 +36,7 @@ def upload():
         # CARPETA IMAGENES
         # =========================
 
-        target = os.path.join(APP_ROOT, 'images/')
-
-        print(target)
+        target = os.path.join(APP_ROOT, 'images')
 
         if not os.path.isdir(target):
 
@@ -59,15 +46,13 @@ def upload():
         # RECIBIR ARCHIVO
         # =========================
 
-        files = request.files.getlist('file')
-
-        if not files or files == [None]:
+        if 'file' not in request.files:
 
             return {
-                "error": "No se recibió ninguna imagen"
+                "error": "No se recibió imagen"
             }, 400
 
-        file = files[0]
+        file = request.files['file']
 
         if file.filename == '':
 
@@ -81,11 +66,11 @@ def upload():
 
         filename = file.filename
 
-        dest = os.path.join(target, filename)
+        filepath = os.path.join(target, filename)
 
-        print(f"Saving file to: {dest}")
+        file.save(filepath)
 
-        file.save(dest)
+        print("Imagen guardada:", filepath)
 
         # =========================
         # PREDICCION
@@ -93,17 +78,11 @@ def upload():
 
         resultado = check(filename)
 
-        # =========================
-        # MOSTRAR RESULTADO
-        # =========================
-
-        return {
-    "resultado": resultado["resultado"],
-    "probabilidad": resultado["probabilidad"]
-}
-
+        return resultado
 
     except Exception as e:
+
+        print("ERROR APP:", str(e))
 
         return {
             "error": str(e)
@@ -119,6 +98,5 @@ if __name__ == "__main__":
 
     app.run(
         host="0.0.0.0",
-        port=port,
-        debug=True
+        port=port
     )
