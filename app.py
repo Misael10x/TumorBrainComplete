@@ -6,7 +6,11 @@ from predictor import check
 
 author = 'TEAM DELTA'
 
-app = Flask(__name__, static_folder="images")
+# =========================
+# FLASK
+# =========================
+
+app = Flask(__name__)
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
@@ -17,6 +21,7 @@ APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 @app.route('/')
 @app.route('/index')
 def index():
+
     return render_template('upload.html')
 
 # =========================
@@ -28,12 +33,21 @@ def upload():
 
     try:
 
+        # =========================
+        # CARPETA IMAGENES
+        # =========================
+
         target = os.path.join(APP_ROOT, 'images/')
 
         print(target)
 
         if not os.path.isdir(target):
+
             os.mkdir(target)
+
+        # =========================
+        # RECIBIR ARCHIVO
+        # =========================
 
         files = request.files.getlist('file')
 
@@ -51,6 +65,10 @@ def upload():
                 "error": "Archivo inválido"
             }, 400
 
+        # =========================
+        # GUARDAR IMAGEN
+        # =========================
+
         filename = file.filename
 
         dest = os.path.join(target, filename)
@@ -65,15 +83,15 @@ def upload():
 
         resultado = check(filename)
 
-        return f"""
-<h1>Resultado IA Tumor Brain</h1>
+        # =========================
+        # MOSTRAR RESULTADO
+        # =========================
 
-<h2>{resultado['resultado']}</h2>
-
-<h3>Probabilidad: {resultado['probabilidad']}%</h3>
-
-<a href="/">Volver</a>
-"""
+        return render_template(
+            "complete.html",
+            predvalue=True if resultado["resultado"] == "Tumor detectado" else False,
+            image_name=filename
+        )
 
     except Exception as e:
 
