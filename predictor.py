@@ -1,7 +1,7 @@
 # predictor.py
 
 import numpy as np
-from keras.preprocessing import image
+from PIL import Image
 from tensorflow.keras.models import load_model
 from tensorflow.keras.optimizers import RMSprop
 
@@ -36,23 +36,32 @@ def check(input_img):
         print("Imagen recibida:", input_img)
 
         # =========================
+        # RUTA IMAGEN
+        # =========================
+
+        img_path = "images/" + input_img
+
+        print("Ruta imagen:", img_path)
+
+        # =========================
         # CARGAR IMAGEN
         # =========================
 
-        img = image.load_img(
-            "images/" + input_img,
-            target_size=(224, 224)
-        )
+        img = Image.open(img_path).convert("RGB")
+
+        img = img.resize((224, 224))
 
         # =========================
         # PREPROCESAMIENTO
         # =========================
 
-        img = np.asarray(img)
+        img = np.array(img)
 
         img = img / 255.0
 
         img = np.expand_dims(img, axis=0)
+
+        print("Shape:", img.shape)
 
         # =========================
         # PREDICCION
