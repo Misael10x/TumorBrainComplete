@@ -97,11 +97,11 @@ def upload():
         # MOSTRAR RESULTADO
         # =========================
 
-        return render_template(
-            "complete.html",
-            predvalue=True if resultado["resultado"] == "Tumor detectado" else False,
-            image_name=filename
-        )
+        return {
+    "resultado": resultado["resultado"],
+    "probabilidad": resultado["probabilidad"]
+}
+
 
     except Exception as e:
 
