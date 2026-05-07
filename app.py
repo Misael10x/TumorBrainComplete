@@ -78,6 +78,18 @@ def upload():
 
         resultado = check(filename)
 
+        # =========================
+        # BORRAR IMAGEN
+        # =========================
+
+        if os.path.exists(filepath):
+
+            os.remove(filepath)
+
+        # =========================
+        # RESPUESTA
+        # =========================
+
         return resultado
 
     except Exception as e:

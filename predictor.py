@@ -1,5 +1,6 @@
 # predictor.py
 
+import gc
 import numpy as np
 from PIL import Image
 from tensorflow.keras.models import load_model
@@ -59,11 +60,20 @@ def check(input_img):
         # PREDICCION
         # =========================
 
-        output = saved_model.predict(img)
+        output = saved_model.predict(
+            img,
+            verbose=0
+        )
 
         print("Output modelo:", output)
 
         prob = float(np.max(output))
+
+        # =========================
+        # LIBERAR MEMORIA
+        # =========================
+
+        gc.collect()
 
         # =========================
         # RESULTADO
