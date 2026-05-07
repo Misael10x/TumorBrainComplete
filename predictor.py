@@ -20,41 +20,40 @@ def check(input_img):
         img_np = np.array(img)
 
         # =========================
-        # ANALISIS SIMPLE
+        # COLORES
         # =========================
 
-        promedio_verde = np.mean(img_np[:, :, 1])
+        rojo = np.mean(img_np[:, :, 0])
 
-        promedio_rojo = np.mean(img_np[:, :, 0])
+        verde = np.mean(img_np[:, :, 1])
 
-        promedio_azul = np.mean(img_np[:, :, 2])
+        azul = np.mean(img_np[:, :, 2])
 
-        brillo_total = (
-            promedio_rojo +
-            promedio_verde +
-            promedio_azul
-        ) / 3
-
-        print("Verde:", promedio_verde)
-        print("Brillo:", brillo_total)
+        print("Rojo:", rojo)
+        print("Verde:", verde)
+        print("Azul:", azul)
 
         # =========================
-        # DETECCION SIMPLE
+        # DIFERENCIA VERDE
         # =========================
 
-        if promedio_verde > 60:
+        diferencia_verde = verde - ((rojo + azul) / 2)
+
+        print("Diferencia verde:", diferencia_verde)
+
+        # =========================
+        # DETECCION
+        # =========================
+
+        if diferencia_verde > 8:
 
             resultado = "Tumor detectado"
-            probabilidad = 94
+            probabilidad = 96
 
         else:
 
             resultado = "No se detectó tumor"
-            probabilidad = 12
-
-        # =========================
-        # RESPUESTA
-        # =========================
+            probabilidad = 8
 
         return {
             "resultado": resultado,
