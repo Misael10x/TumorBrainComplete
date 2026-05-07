@@ -35,51 +35,65 @@ saved_model.compile(
 
 def check(input_img):
 
-    print("Imagen recibida:", input_img)
+    try:
 
-    # =========================
-    # CARGAR IMAGEN
-    # =========================
+        print("Imagen recibida:", input_img)
 
-    img = image.load_img(
-        "images/" + input_img,
-        target_size=(224, 224)
-    )
+        # =========================
+        # CARGAR IMAGEN
+        # =========================
 
-    # =========================
-    # PREPROCESAMIENTO
-    # =========================
+        img = image.load_img(
+            "images/" + input_img,
+            target_size=(224, 224)
+        )
 
-    img = np.asarray(img)
+        # =========================
+        # PREPROCESAMIENTO
+        # =========================
 
-    img = img / 255.0
+        img = np.asarray(img)
 
-    img = np.expand_dims(img, axis=0)
+        img = img / 255.0
 
-    # =========================
-    # PREDICCION
-    # =========================
+        img = np.expand_dims(img, axis=0)
 
-    output = saved_model.predict(img)
+        # =========================
+        # PREDICCION
+        # =========================
 
-    prob = float(output[0][0])
+        output = saved_model.predict(img)
 
-    # =========================
-    # RESULTADO
-    # =========================
+        print("Output modelo:", output)
 
-    if prob > 0.5:
+        prob = float(np.max(output))
 
-        resultado = "Tumor detectado"
+        # =========================
+        # RESULTADO
+        # =========================
 
-    else:
+        if prob >= 0.5:
 
-        resultado = "No se detectó tumor"
+            resultado = "Tumor detectado"
 
-    print("Resultado:", resultado)
-    print("Probabilidad:", prob)
+        else:
 
-    return {
-        "resultado": resultado,
-        "probabilidad": round(prob * 100, 2)
-    }
+            resultado = "No se detectó tumor"
+
+        print("Resultado:", resultado)
+        print("Probabilidad:", prob)
+
+        return {
+            "resultado": resultado,
+            "probabilidad": round(prob * 100, 2)
+        }
+
+    except Exception as e:
+
+        print("ERROR:", str(e))
+
+        return {
+            "resultado": "Error al procesar imagen",
+            "probabilidad": 0,
+            "error": str(e)
+        }

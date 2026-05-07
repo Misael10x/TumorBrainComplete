@@ -26,45 +26,56 @@ def index():
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
 
-    target = os.path.join(APP_ROOT, 'images/')
-    print(target)
+    try:
 
-    if not os.path.isdir(target):
-        os.mkdir(target)
+        target = os.path.join(APP_ROOT, 'images/')
 
-    files = request.files.getlist('file')
+        print(target)
 
-    if not files or files == [None]:
+        if not os.path.isdir(target):
+            os.mkdir(target)
+
+        files = request.files.getlist('file')
+
+        if not files or files == [None]:
+
+            return {
+                "error": "No se recibió ninguna imagen"
+            }, 400
+
+        file = files[0]
+
+        if file.filename == '':
+
+            return {
+                "error": "Archivo inválido"
+            }, 400
+
+        filename = file.filename
+
+        dest = os.path.join(target, filename)
+
+        print(f"Saving file to: {dest}")
+
+        file.save(dest)
+
+        # =========================
+        # PREDICCION
+        # =========================
+
+        resultado = check(filename)
+
         return {
-            "error": "No se recibió ninguna imagen"
-        }, 400
+            "filename": filename,
+            "resultado": resultado["resultado"],
+            "probabilidad": resultado["probabilidad"]
+        }
 
-    file = files[0]
+    except Exception as e:
 
-    if file.filename == '':
         return {
-            "error": "Archivo inválido"
-        }, 400
-
-    filename = file.filename
-
-    dest = os.path.join(target, filename)
-
-    print(f"Saving file to: {dest}")
-
-    file.save(dest)
-
-    # =========================
-    # PREDICCION
-    # =========================
-
-    resultado = check(filename)
-
-    return {
-        "filename": filename,
-        "resultado": resultado["resultado"],
-        "probabilidad": resultado["probabilidad"]
-    }
+            "error": str(e)
+        }, 500
 
 # =========================
 # RUN
