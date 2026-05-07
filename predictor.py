@@ -11,7 +11,8 @@ from tensorflow.keras.optimizers import RMSprop
 
 saved_model = load_model(
     "model/VGG_model.h5",
-    compile=False
+    compile=False,
+    safe_mode=False
 )
 
 # =========================
