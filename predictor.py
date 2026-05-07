@@ -9,11 +9,7 @@ from tensorflow.keras.optimizers import RMSprop
 # CARGAR MODELO
 # =========================
 
-saved_model = load_model(
-    "model/VGG_model.h5",
-    compile=False,
-    safe_mode=False
-)
+saved_model = load_model("model/VGG_model.h5")
 
 # =========================
 # RECOMPILAR MODELO
