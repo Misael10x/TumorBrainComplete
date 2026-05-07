@@ -3,26 +3,14 @@
 import numpy as np
 from PIL import Image
 from tensorflow.keras.models import load_model
-from tensorflow.keras.optimizers import RMSprop
 
 # =========================
 # CARGAR MODELO
 # =========================
 
-saved_model = load_model("model/VGG_model.h5")
-
-# =========================
-# RECOMPILAR MODELO
-# =========================
-
-optimizer = RMSprop(
-    learning_rate=0.001
-)
-
-saved_model.compile(
-    optimizer=optimizer,
-    loss='binary_crossentropy',
-    metrics=['accuracy']
+saved_model = load_model(
+    "model/VGG_model.h5",
+    compile=False
 )
 
 # =========================
